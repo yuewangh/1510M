@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wy.dao.user.UserDao">
+	
+	
+	<!-- 新增-->
+	<insert id="insert" parameterType="com.wy.model.user.User">
+		insert into ztl_user(
+			id,	
+			user_name,	
+			password,	
+			name,	
+			rights,	
+			role_id,	
+			lastlogin,	
+			ip,	
+			skin,	
+			email,	
+			phone,	
+		    sex
+		) values (
+			#{id},	
+			#{user_name},	
+			#{password},	
+			#{name},	
+			#{rights},	
+			#{role_id},	
+			#{lastlogin},	
+			#{ip},	
+			#{skin},	
+			#{email},	
+			#{phone},	
+		    #{sex}
+		)
+	</insert>
+	
+	
+	<!-- 删除-->
+	<delete id="delete" parameterType="String">
+		delete from ztl_user where  id = #{id}
+	</delete>
+	
+	
+	<!-- 修改 -->
+	<update id="update" parameterType="com.wy.model.user.User">
+		update  ztl_user
+	    	 <set> 
+				<if test="id != null and id != '' ">
+					id = #{id},
+				</if>
+				<if test="user_name != null and user_name != '' ">
+					user_name = #{user_name},
+				</if>
+				<if test="password != null and password != '' ">
+					password = #{password},
+				</if>
+				<if test="name != null and name != '' ">
+					name = #{name},
+				</if>
+				<if test="rights != null and rights != '' ">
+					rights = #{rights},
+				</if>
+				<if test="role_id != null and role_id != '' ">
+					role_id = #{role_id},
+				</if>
+				<if test="ip != null and ip != '' ">
+					ip = #{ip},
+				</if>
+				<if test="skin != null and skin != '' ">
+					skin = #{skin},
+				</if>
+				<if test="email != null and email != '' ">
+					email = #{email},
+				</if>
+				<if test="phone != null and phone != '' ">
+					phone = #{phone},
+				</if>
+				<if test="sex != null and sex != '' ">
+					sex = #{sex},
+				</if>
+				<if test="last_update_time != null and last_update_time != '' ">
+					last_update_time = #{last_update_time},
+				</if>
+			</set>
+		where  id = #{id}
+	</update>
+	
+	
+	<!-- 通过ID获取数据 -->
+	<select id="getById" resultType="com.wy.model.user.User" parameterType="String">
+		select 
+			a.id,	
+			a.user_name,	
+			a.password,	
+			a.name,	
+			a.rights,	
+			a.role_id,	
+			a.lastlogin,	
+			a.ip,	
+			a.skin,	
+			a.email,	
+			a.phone,	
+		    a.sex
+		from  ztl_user a where id = #{id}
+	</select>
+	
+	<!-- 列表(分页) -->
+	<select id="getList" resultType="com.wy.model.user.User" parameterType="com.wy.model.user.User">
+		select
+			   a.id,
+			   a.user_name,
+			   a.password,
+			   a.name,
+			   a.rights,
+			   a.role_id,
+			   DATE_FORMAT( a.lastlogin,'%Y-%m-%d %H:%i:%s')  lastlogin,
+			   a.ip,
+			   a.skin,
+			   a.email,
+			   a.phone,
+			   a.sex
+		from 
+				ztl_user a
+		where 1=1
+		order by id desc limit #{startPos},#{pageSize}
+	</select>
+	
+	<!-- 分页查询数量-->
+	<select id="getCount" resultType="int" parameterType="com.wy.model.user.User">
+		select count(1) from ztl_user where 1=1
+	</select>
+	
+	<!-- 批量删除 -->
+	<delete id="deleteAll" parameterType="String">
+		delete from ztl_user
+		where 
+			id in
+		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+                 #{item}
+		</foreach>
+	</delete>
+	
+</mapper>

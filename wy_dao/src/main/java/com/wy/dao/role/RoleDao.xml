@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wy.dao.role.RoleDao">
+	
+	
+	<!-- 新增-->
+	<insert id="insert" parameterType="com.wy.model.role.Role">
+		insert into ztl_role(
+			id,	
+			role_name,	
+			rights,	
+			add_qx,	
+			del_qx,	
+			edit_qx,	
+			cha_qx,	
+			sh_qx,	
+			by1_qx,	
+			by2_qx,	
+		    by3_qx
+		) values (
+			#{id},	
+			#{role_name},	
+			#{rights},	
+			#{add_qx},	
+			#{del_qx},	
+			#{edit_qx},	
+			#{cha_qx},	
+			#{sh_qx},	
+			#{by1_qx},	
+			#{by2_qx},	
+		    #{by3_qx}
+		)
+	</insert>
+	
+	
+	<!-- 删除-->
+	<delete id="delete" parameterType="String">
+		delete from ztl_role where  id = #{id}
+	</delete>
+	
+	
+	<!-- 修改 -->
+	<update id="update" parameterType="com.wy.model.role.Role">
+		update  ztl_role
+	    	 <set> 
+				<if test="id != null and id != '' ">
+					id = #{id},
+				</if>
+				<if test="role_name != null and role_name != '' ">
+					role_name = #{role_name},
+				</if>
+				<if test="rights != null and rights != '' ">
+					rights = #{rights},
+				</if>
+				<if test="add_qx != null and add_qx != '' ">
+					add_qx = #{add_qx},
+				</if>
+				<if test="del_qx != null and del_qx != '' ">
+					del_qx = #{del_qx},
+				</if>
+				<if test="edit_qx != null and edit_qx != '' ">
+					edit_qx = #{edit_qx},
+				</if>
+				<if test="cha_qx != null and cha_qx != '' ">
+					cha_qx = #{cha_qx},
+				</if>
+				<if test="sh_qx != null and sh_qx != '' ">
+					sh_qx = #{sh_qx},
+				</if>
+				<if test="by1_qx != null and by1_qx != '' ">
+					by1_qx = #{by1_qx},
+				</if>
+				<if test="by2_qx != null and by2_qx != '' ">
+					by2_qx = #{by2_qx},
+				</if>
+				<if test="by3_qx != null and by3_qx != '' ">
+					by3_qx = #{by3_qx},
+				</if>
+				<if test="last_update_time != null and last_update_time != '' ">
+					last_update_time = #{last_update_time},
+				</if>
+			</set>
+		where  id = #{id}
+	</update>
+	
+	
+	<!-- 通过ID获取数据 -->
+	<select id="getById" resultType="com.wy.model.role.Role" parameterType="String">
+		select 
+			a.id,	
+			a.role_name,	
+			a.rights,	
+			a.add_qx,	
+			a.del_qx,	
+			a.edit_qx,	
+			a.cha_qx,	
+			a.sh_qx,	
+			a.by1_qx,	
+			a.by2_qx,	
+		    a.by3_qx
+		from  ztl_role a where id = #{id}
+	</select>
+	
+	<!-- 列表(分页) -->
+	<select id="getList" resultType="com.wy.model.role.Role" parameterType="com.wy.model.role.Role">
+		select
+			   a.id,
+			   a.role_name,
+			   a.rights,
+			   a.add_qx,
+			   a.del_qx,
+			   a.edit_qx,
+			   a.cha_qx,
+			   a.sh_qx,
+			   a.by1_qx,
+			   a.by2_qx,
+			   a.by3_qx
+		from 
+				ztl_role a
+		where 1=1
+		order by id desc limit #{startPos},#{pageSize}
+	</select>
+	
+	<!-- 分页查询数量-->
+	<select id="getCount" resultType="int" parameterType="com.wy.model.role.Role">
+		select count(1) from ztl_role where 1=1
+	</select>
+	
+	<!-- 批量删除 -->
+	<delete id="deleteAll" parameterType="String">
+		delete from ztl_role
+		where 
+			id in
+		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+                 #{item}
+		</foreach>
+	</delete>
+	
+</mapper>
